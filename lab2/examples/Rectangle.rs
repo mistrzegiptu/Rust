@@ -1,6 +1,12 @@
+use std::fmt::{Display, Formatter};
+
 trait Shape {
     fn area(&self) -> f32;
     fn perimeter(&self) -> f32;
+
+    fn describe(&self) {
+        println!("I'm a general shape.");
+    }
 }
 
 struct Rectangle{
@@ -27,12 +33,25 @@ impl Shape for Rectangle {
     fn perimeter(&self) -> f32 {
         2f32 * (self.x + self.y)
     }
+
+    fn describe(&self) {
+        println!("I'm a rectangle.");
+    }
 }
 
+impl Display for Rectangle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "Rectangle[x={},y={}]", self.x, self.y)?;
+        Ok(())
+    }
+}
 
 fn main(){
     let mut r = Rectangle{x: 5.0, y: 4.0};
     r.scale(2.0);
     //Rectangle::scale(&mut r, 2.0);
+    //println!("Area of r as shape is {}", <Rectangle as Shape>::area(&r));
+    r.describe();
     println!("Area of r is {}", r.area());
+    println!("{}", r);
 }
